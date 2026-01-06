@@ -112,7 +112,6 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 35
-                applicationId "org.infinity.tel"
 
 
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
