@@ -1,32 +1,38 @@
-name: Build Infinity Tel
+name: Build Telegram APK
+
 on:
-  workflow_dispatch: # این یعنی بیلد را دستی شروع می‌کنیم
+  workflow_dispatch: # اجرای دستی بیلد
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - name: set up JDK 17
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive # دانلود تمام کتابخانه‌های دانیال
+
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: gradle
 
-      - name: Decode Keystore
-        run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 --decode > TMessagesProj/infinity.jks
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew assembleRelease
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        # دستور جادویی که فقط اپلیکیشن را بیلد می‌کند و کتابخانه‌ها را خودش فراخوانی می‌کند
+        run: ./gradlew :TMessagesProj_App:assembleRelease 
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Infinity-Tel-Release
-          path: TMessagesProj/build/outputs/apk/release/*.apk
+          name: Telegram-Custom-APK
+          path: TMessagesProj_App/build/outputs/apk/release/*.apk
