@@ -58,6 +58,7 @@ android {
     }
 
 
+
     buildTypes {
         debug {
             debuggable true
@@ -152,7 +153,8 @@ android {
         }
     }
 
-    defaultConfig.versionCode = Integer.parseInt(APP_VERSION_CODE)
+defaultConfig.versionCode = 1
+
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
