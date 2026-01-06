@@ -44,20 +44,18 @@ android {
     signingConfigs {
         debug {
             storeFile file("../TMessagesProj/config/release.keystore")
-            storePassword System.getenv("KEYSTORE_PASSWORD")
-            keyAlias System.getenv("KEY_ALIAS")
-            keyPassword System.getenv("KEY_PASSWORD")
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
         }
 
         release {
             storeFile file("../TMessagesProj/config/release.keystore")
-            storePassword System.getenv("KEYSTORE_PASSWORD")
-            keyAlias System.getenv("KEY_ALIAS")
-            keyPassword System.getenv("KEY_PASSWORD")
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
         }
     }
-
-
 
     buildTypes {
         debug {
@@ -153,8 +151,27 @@ android {
         }
     }
 
+    defaultConfig {
+        applicationId "org.infinity.tel" // نام پکیج تو
+        minSdkVersion 21
+        targetSdkVersion 35
+        versionCode 1                   // به جای آن کد پیچیده، فقط عدد ۱ را بگذار
+        versionName "1.0"               // به جای متغیر مجهول، متن "1.0" را بگذار
+        ndkVersion "21.4.7075529"
 
+        multiDexEnabled true
 
+        vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
+
+        externalNativeBuild {
+            cmake {
+                version '3.10.2'
+                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-21'
+            }
+        }
+    }
+
+    // این بخش را هم بلافاصله بعد از بلوک بالا اضافه کن تا خروجی فقط یک فایل APK باشد
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
             outputFileName = "app.apk"
@@ -170,10 +187,8 @@ android {
     }
 
     defaultConfig {
-        applicationId "org.infinity.tel"
         minSdkVersion 21
         targetSdkVersion 35
-        versionCode 1
         versionName "1.0"
         ndkVersion "21.4.7075529"
 
@@ -184,16 +199,15 @@ android {
         externalNativeBuild {
             cmake {
                 version '3.10.2'
-                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-21'
+                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-21' // , '-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
             }
         }
     }
 
-
     buildFeatures {
         buildConfig = true
     }
-    namespace 'org.infinity.tel'
+    namespace 'org.telegram.messenger.regular'
 
     lintOptions {
         checkReleaseBuilds false
