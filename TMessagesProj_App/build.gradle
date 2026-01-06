@@ -1,13 +1,8 @@
 apply plugin: 'com.android.application'
 
-// این خط را برای عبور از خطای گوگل غیرفعال کردیم
-// apply plugin: 'com.google.gms.google-services'
-
 android {
     compileSdkVersion 35
     buildToolsVersion '35.0.0'
-    
-    // شناسنامه جدید برنامه تو
     namespace 'org.infinity.tel'
 
     defaultConfig {
@@ -30,10 +25,9 @@ android {
     signingConfigs {
         release {
             storeFile file("../TMessagesProj/config/release.keystore")
-            // استفاده از متغیرهای محیطی گیت‌هاب برای امنیت
-            storePassword System.getenv("KEYSTORE_PASSWORD") ?: "ph_password"
-            keyAlias System.getenv("KEY_ALIAS") ?: "ph_alias"
-            keyPassword System.getenv("KEY_PASSWORD") ?: "ph_password"
+            storePassword 'android' 
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
         }
     }
 
@@ -47,7 +41,6 @@ android {
         }
     }
 
-    // تلگرام به این مسیرها برای پیدا کردن کدهای اصلی نیاز دارد
     sourceSets {
         main {
             jniLibs.srcDirs = ['../TMessagesProj/jni/']
@@ -60,18 +53,17 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
         coreLibraryDesugaringEnabled true
     }
+
+    // این بخش که خطا داده بود، حالا دقیقاً داخل بلوک اندروید است
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "infinity.apk"
+        }
+    }
 }
 
 dependencies {
     implementation project(':TMessagesProj')
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
-    // فایل کتابخانه داخلی تلگرام
     implementation files('../TMessagesProj/libs/libgsaverification-client.aar')
-}
-
-// تنظیم نام فایل خروجی برای دانلود راحتتر
-applicationVariants.all { variant ->
-    variant.outputs.all { output ->
-        outputFileName = "infinity-telegram.apk"
-    }
 }
