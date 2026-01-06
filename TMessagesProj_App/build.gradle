@@ -54,10 +54,10 @@ android {
         coreLibraryDesugaringEnabled true
     }
 
-    // این بخش که خطا داده بود، حالا دقیقاً داخل بلوک اندروید است
+    // این بخش را دقیقاً همینجا داخل اندروید نگه دار
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            outputFileName = "infinity.apk"
+            outputFileName = "infinity-telegram.apk"
         }
     }
 }
