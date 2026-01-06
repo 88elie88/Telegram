@@ -2,7 +2,7 @@ name: Build and Sign Telegram
 
 on:
   push:
-    branches: [ "master" ] # اگر نام شاخه اصلی تو main است، این را به main تغییر بده
+    branches: [ "master" ] # اگر شاخه اصلی شما نام دیگری دارد آن را جایگزین کنید
 
 jobs:
   build:
@@ -19,13 +19,13 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
-    - name: Grant permissions
+    - name: Grant permissions for Gradlew
       run: chmod +x gradlew
 
-    - name: Build APK
+    - name: Build Release APK
       run: ./gradlew assembleRelease
 
-    - name: Sign APK
+    - name: Sign Android Release
       uses: r0adkll/sign-android-release@v1
       id: sign_app
       with:
@@ -35,6 +35,11 @@ jobs:
         keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
         keyPassword: ${{ secrets.KEY_PASSWORD }}
 
+    - name: Upload Signed APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: Telegram-Custom-Signed
+        path: ${{ steps.sign_app.outputs.signedReleaseFile }}
     - name: Upload Finished APK
       uses: actions/upload-artifact@v4
       with:
