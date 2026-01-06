@@ -153,15 +153,14 @@ android {
         }
     }
 
-defaultConfig.versionCode = 1
 
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
             outputFileName = "app.apk"
-            output.versionCodeOverride = defaultConfig.versionCode * 10 + variant.productFlavors.get(0).abiVersionCode
         }
     }
+
 
     variantFilter { variant ->
         def names = variant.flavors*.name
@@ -171,9 +170,11 @@ defaultConfig.versionCode = 1
     }
 
     defaultConfig {
+        applicationId "org.infinity.tel"
         minSdkVersion 21
         targetSdkVersion 35
-        versionName APP_VERSION_NAME
+        versionCode 1
+        versionName "1.0"
         ndkVersion "21.4.7075529"
 
         multiDexEnabled true
@@ -183,10 +184,11 @@ defaultConfig.versionCode = 1
         externalNativeBuild {
             cmake {
                 version '3.10.2'
-                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-21' // , '-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON'
+                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-21'
             }
         }
     }
+
 
     buildFeatures {
         buildConfig = true
