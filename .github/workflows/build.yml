@@ -2,7 +2,7 @@ name: Build and Sign Telegram
 
 on:
   push:
-    branches: [ "master" ] # اگر شاخه اصلی شما نام دیگری دارد آن را جایگزین کنید
+    branches: [ "master" ]
 
 jobs:
   build:
@@ -35,14 +35,8 @@ jobs:
         keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
         keyPassword: ${{ secrets.KEY_PASSWORD }}
 
-    - name: Upload Signed APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: Telegram-Custom-Signed
-        path: ${{ steps.sign_app.outputs.signedReleaseFile }}
     - name: Upload Finished APK
       uses: actions/upload-artifact@v4
       with:
         name: Telegram-Custom-Signed
-        path: ${{ steps.sign_app.outputs.signedReleas
-eFile }}
+        path: ${{ steps.sign_app.outputs.signedReleaseFile }}
