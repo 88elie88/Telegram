@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-// مخازن لازم برای دانلود کتابخانه
+// مخازن لازم برای دانلود ا
 repositories {
     google()
     mavenCentral()
@@ -10,7 +10,7 @@ android {
     compileSdkVersion 35
     buildToolsVersion '35.0.0'
     
-    // شناسنامه واحد برای کل پروژه
+    // این بخش باید دقیقاً با نام پکیج شما یکی باشد
     namespace 'org.infinity.tel'
 
     defaultConfig {
@@ -41,10 +41,8 @@ android {
 
     buildTypes {
         release {
-            debuggable false
-            signingConfig signingConfigs.release
             minifyEnabled true
-            shrinkResources false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro'
         }
     }
@@ -52,6 +50,7 @@ android {
     sourceSets {
         main {
             jniLibs.srcDirs = ['../TMessagesProj/jni/']
+            // مسیر مانیفست اصلی تلگرام
             manifest.srcFile '../TMessagesProj/config/release/AndroidManifest.xml'
         }
     }
@@ -62,7 +61,7 @@ android {
         coreLibraryDesugaringEnabled true
     }
 
-    // تنظیم نام فایل خروجی APK
+    // تغییر نا
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
             outputFileName = "infinity-telegram.apk"
