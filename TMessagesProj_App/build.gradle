@@ -1,8 +1,16 @@
 apply plugin: 'com.android.application'
 
+// مخازن لازم برای دانلود کتابخانه
+repositories {
+    google()
+    mavenCentral()
+}
+
 android {
     compileSdkVersion 35
     buildToolsVersion '35.0.0'
+    
+    // شناسنامه واحد برای کل پروژه
     namespace 'org.infinity.tel'
 
     defaultConfig {
@@ -54,7 +62,7 @@ android {
         coreLibraryDesugaringEnabled true
     }
 
-    // این بخش را دقیقاً همینجا داخل اندروید نگه دار
+    // تنظیم نام فایل خروجی APK
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
             outputFileName = "infinity-telegram.apk"
