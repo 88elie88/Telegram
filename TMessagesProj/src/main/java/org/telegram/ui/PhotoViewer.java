@@ -5074,7 +5074,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 } else if (id == gallery_menu_copy) {
                     if (currentFile != null) {
                         AndroidUtilities.copyFileToClipboard(currentFile.getAbsolutePath());
-                        BulletinFactory.of(containerView, null).createCopyBulletin(LocaleController.getString("ImageCopied", R.string.ImageCopied)).show();
+                        BulletinFactory.of(containerView, null).createCopyBulletin(LocaleController.getString("CopyImage", R.string.CopyImage)).show();
                     }
                 } else if (id == gallery_menu_chromecast) {
                     ChromecastController.getInstance().setCurrentMediaAndCastIfNeeded(getCurrentChromecastMedia());
