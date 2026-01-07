@@ -8,9 +8,12 @@ repositories {
 android {
     compileSdkVersion 35
     buildToolsVersion '35.0.0'
-    namespace 'org.infinity.tel' // نام جدید شما
+    
+    // هویت داخلی کدها را به نام اصلی برمی‌گردانیم تا خطا ندهد
+    namespace 'org.telegram.messenger'
 
     defaultConfig {
+        // هویت نصب برنامه روی گوشی همچنان نام اختصاصی توست
         applicationId "org.infinity.tel"
         minSdkVersion 21
         targetSdkVersion 35
@@ -29,34 +32,17 @@ android {
 
     sourceSets {
         main {
-            // این دو خط بسیار مهم هستند تا جاوا و مانیفست درست جفت شوند
             java.srcDirs = ['../TMessagesProj/src/main/java']
-            manifest.srcFile '../TMessagesProj/config/release/AndroidManifest.xml'
             jniLibs.srcDirs = ['../TMessagesProj/jni/']
-        }
-    }
-
-    signingConfigs {
-        release {
-            storeFile file("../TMessagesProj/config/release.keystore")
-            storePassword 'android' 
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
+            manifest.srcFile '../TMessagesProj/config/release/AndroidManifest.xml'
         }
     }
 
     buildTypes {
         release {
-            minifyEnabled false // فعلاً این را false بگذار تا سرعت بالا برود و خطا کمتر شود
-            signingConfig signingConfigs.release
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../TMessagesProj/proguard-rules.pro'
+            minifyEnabled false
+            signingConfig signingConfigs.debug // فعلاً از امضای دیباگ استفاده کن تا خطای کلید ندهد
         }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-        coreLibraryDesugaringEnabled true
     }
 }
 
