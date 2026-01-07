@@ -11,7 +11,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          submodules: recursive # دانلود تمام کتابخانه‌های دانیال
+          submodules: recursive
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -23,16 +23,17 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        env:
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        # دستور جادویی که فقط اپلیکیشن را بیلد می‌کند و کتابخانه‌ها را خودش فراخوانی می‌کند
-        run: ./gradlew :TMessagesProj_App:assembleRelease 
+      - name: Build with Gradle (Optimized for GitHub Runner)
+        # استفاده از دستورات کنترلی برای جلوگیری از کرش سرور
+        run: |
+          ./gradlew :TMessagesProj_App:assembleDebug \
+          -Pandroid.injected.abi.list=arm64-v8a \
+          -Pandroid.bundle.enableSplit=false \
+          -Dorg.gradle.jvmargs="-Xmx4g -XX:MaxMetaspaceSize=512m -XX:+HeapDumpOnOutOfMemoryError" \
+          --max-workers=2
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Telegram-Custom-APK
-          path: TMessagesProj_App/build/outputs/apk/release/*.apk
+          name: Telegram-Infinity-Debug-APK
+          path: TMessagesProj_App/build/outputs/apk/debug/*.apk
