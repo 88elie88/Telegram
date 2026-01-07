@@ -2105,8 +2105,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private final static int gallery_menu_loop = 22;
     private final static int gallery_menu_report = 23;
     private final static int gallery_menu_chromecast = 24;
-    private final static int gallery_menu_copy = 25;
-    
+
     private final static int ads_sponsor_info = 101;
     private final static int ads_about = 102;
     private final static int ads_report = 103;
@@ -5071,11 +5070,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                         dialog.setTextColor(getThemedColor(Theme.key_voipgroup_actionBarItems));
                     }
-                } else if (id == gallery_menu_copy) {
-                    if (currentFile != null) {
-                        AndroidUtilities.copyFileToClipboard(currentFile.getAbsolutePath());
-                        BulletinFactory.of(containerView, null).createCopyBulletin(LocaleController.getString("CopyImage", R.string.CopyImage)).show();
-                    }
                 } else if (id == gallery_menu_chromecast) {
                     ChromecastController.getInstance().setCurrentMediaAndCastIfNeeded(getCurrentChromecastMedia());
                     castItemButton.performClick();
@@ -5705,9 +5699,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         editItem.setContentDescription(getString(R.string.AccDescrPhotoEditor));
         sendItem = menu.addItem(gallery_menu_send, R.drawable.msg_header_share);
         sendItem.setContentDescription(getString(R.string.Forward));
-                ActionBarMenuSubItem copyItem = menu.addItem(gallery_menu_copy, R.drawable.msg_copy);
-        copyItem.setContentDescription(LocaleController.getString("Copy", R.string.Copy));
-
 
         videoItem = menu.addItem(gallery_menu_quality, videoItemIcon = new ChooseQualityLayout.QualityIcon(activityContext, R.drawable.video_settings, new DarkThemeResourceProvider()));
         videoItemIcon.setCallback(videoItem.getIconView());
