@@ -1,22 +1,21 @@
 name: Build Telegram APK
 
 on:
-  workflow_dispatch: # اجرای دستی بیلد
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Free Disk Space (The Magic Step)
-        # این بخش فضا را آزاد می‌کند تا با ارور No space left مواجه نشوید
+      - name: Free Disk Space (Safe Cleanup)
+        # فقط موارد غیر ضروری را پاک می‌کنیم. به پوشه اندروید دست نمی‌زنیم.
         run: |
           sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /usr/local/lib/android
           sudo rm -rf /opt/ghc
           sudo rm -rf "/usr/local/share/boost"
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-          df -h # نمایش فضای خالی برای اطمینان
+          df -h
 
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -33,7 +32,8 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build with Gradle (Optimized for Space & RAM)
+      - name: Build with Gradle
+        # اینجا از SDK موجود در خود گیت‌هاب استفاده می‌شود
         run: |
           ./gradlew :TMessagesProj_App:assembleDebug \
           -Pandroid.injected.abi.list=arm64-v8a \
